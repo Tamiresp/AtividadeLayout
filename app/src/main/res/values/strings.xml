@@ -7,4 +7,9 @@
     <string name="cpf">CPF</string>
     <string name="cancel">Cancel</string>
     <string name="enter">Enter</string>
+    <string name="txtName">Seu nome é: </string>
+    <string name="txtSenha">Sua senha é: </string>
+    <string name="txtCpf">Seu CPF é: </string>
+    <string name="txtLogin">Seu login é: </string>
+    <string name="campos">Preencha todos os campos</string>
 </resources>

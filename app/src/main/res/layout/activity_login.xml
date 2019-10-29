@@ -21,7 +21,8 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/password"/>
+            android:hint="@string/password"
+            android:inputType="textPassword"/>
 
     </LinearLayout>
 
@@ -29,13 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="bottom|end">
+        android:gravity="bottom|end|center_horizontal">
 
         <Button
             android:id="@+id/cancelLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
+            android:layout_weight="2"
             android:background="@drawable/button"
             android:backgroundTint="#A99E9898" />
 
@@ -44,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/enter"
+            android:layout_weight="2"
             android:background="@drawable/button"
             android:layout_marginLeft="10dp"
             android:backgroundTint="#B74E4C4C" />
