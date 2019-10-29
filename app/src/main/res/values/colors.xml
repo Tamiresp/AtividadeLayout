@@ -6,4 +6,6 @@
     <color name="colorBackRegister">#BDB8B8</color>
     <color name="colorBackLogin">#BDB8B8</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="btnCancel">#AED5D0D0</color>
+    <color name="btnEnter">#6D0F0F0F</color>
 </resources>
