@@ -47,19 +47,17 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        editLogin.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+        editLogin.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                    editLogin.windowToken, 0
-                )
+                    editLogin.windowToken, 0)
             }
         }
 
-        editPassword.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+        editPassword.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                    editPassword.windowToken, 0
-                )
+                    editPassword.windowToken, 0)
             }
         }
 
@@ -73,8 +71,6 @@ class LoginActivity : AppCompatActivity() {
             android.R.id.home -> {
                 startActivity(Intent(this, MainActivity::class.java))
                 finishAffinity()
-            }
-            else -> {
             }
         }
         return true

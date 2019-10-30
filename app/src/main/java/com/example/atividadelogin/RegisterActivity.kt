@@ -1,9 +1,7 @@
 package com.example.atividadelogin
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem
@@ -12,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -47,19 +46,17 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        editName.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+        editName.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                    editName.windowToken, 0
-                )
+                    editName.windowToken, 0)
             }
         }
 
-        editCpf.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+        editCpf.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-                    editCpf.windowToken, 0
-                )
+                    editCpf.windowToken, 0)
             }
         }
 
@@ -73,8 +70,6 @@ class RegisterActivity : AppCompatActivity() {
             android.R.id.home -> {
                 startActivity(Intent(this, MainActivity::class.java))
                 finishAffinity()
-            }
-            else -> {
             }
         }
         return true

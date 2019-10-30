@@ -27,11 +27,8 @@ class ResultRegisterActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 startActivity(
-                    Intent(this, RegisterActivity::class.java)
-                )
+                    Intent(this, RegisterActivity::class.java))
                 finishAffinity()
-            }
-            else -> {
             }
         }
         return true

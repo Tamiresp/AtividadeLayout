@@ -29,8 +29,6 @@ class ResultLoginActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finishAffinity()
             }
-            else -> {
-            }
         }
         return true
     }
