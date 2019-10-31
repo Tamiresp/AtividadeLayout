@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AtividadeLogin</string>
     <string name="login">Login</string>
+    <string name="resultRegister">Result Register</string>
+    <string name="resultLogin">Result Login</string>
     <string name="register">Register</string>
     <string name="password">Password</string>
     <string name="name">Name</string>
@@ -11,5 +13,6 @@
     <string name="txtSenha">Sua senha é: </string>
     <string name="txtCpf">Seu CPF é: </string>
     <string name="txtLogin">Seu login é: </string>
+    <string name="ok">OK</string>
     <string name="campos">Preencha todos os campos</string>
 </resources>

@@ -1,10 +1,8 @@
 package com.example.atividadelogin
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class ResultLoginActivity : AppCompatActivity() {
 
@@ -18,18 +16,7 @@ class ResultLoginActivity : AppCompatActivity() {
         txtLogin.text = getString(R.string.txtLogin) +intent.getStringExtra("login")
         txtPassword.text = getString(R.string.txtSenha) + intent.getStringExtra("password")
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Result Login"
+        supportActionBar?.title = getString(R.string.resultLogin)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finishAffinity()
-            }
-        }
-        return true
-    }
 }

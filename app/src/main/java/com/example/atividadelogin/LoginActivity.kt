@@ -25,8 +25,7 @@ class LoginActivity : AppCompatActivity() {
         val editPassword = findViewById<EditText>(R.id.password)
 
         btnCancel.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
         btnEnter.setOnClickListener {
             val intent = Intent(this, ResultLoginActivity::class.java).apply {
@@ -37,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setCancelable(false)
                 builder.setMessage(R.string.campos)
-                builder.setPositiveButton("ok") { dialog, _ ->
+                builder.setPositiveButton(R.string.ok) { dialog, _ ->
                     dialog.dismiss()
                 }
                 val dialog = builder.create()
@@ -61,18 +60,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Login"
+        supportActionBar?.title = getString(R.string.login)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                startActivity(Intent(this, MainActivity::class.java))
-                finishAffinity()
-            }
-        }
-        return true
-    }
 }

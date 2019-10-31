@@ -1,10 +1,8 @@
 package com.example.atividadelogin
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class ResultRegisterActivity : AppCompatActivity() {
 
@@ -18,19 +16,7 @@ class ResultRegisterActivity : AppCompatActivity() {
         txtName.text = getString(R.string.txtName) + intent.getStringExtra("name")
         txtCpf.text = getString(R.string.txtCpf) + intent.getStringExtra("cpf")
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Result Register"
+        supportActionBar?.title = getString(R.string.resultRegister)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                startActivity(
-                    Intent(this, RegisterActivity::class.java))
-                finishAffinity()
-            }
-        }
-        return true
-    }
 }

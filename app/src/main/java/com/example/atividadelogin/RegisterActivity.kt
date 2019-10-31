@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -24,8 +23,7 @@ class RegisterActivity : AppCompatActivity() {
         val editCpf = findViewById<EditText>(R.id.cpf)
 
         btnCancel.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
         btnEnter.setOnClickListener {
             val intent = Intent(this, ResultRegisterActivity::class.java).apply {
@@ -36,7 +34,7 @@ class RegisterActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setCancelable(false)
                 builder.setMessage(R.string.campos)
-                builder.setPositiveButton("ok") { dialog, _ ->
+                builder.setPositiveButton(R.string.ok) { dialog, _ ->
                     dialog.dismiss()
                 }
                 val dialog = builder.create()
@@ -60,18 +58,7 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.title = "Register"
+        supportActionBar?.title = getString(R.string.register)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                startActivity(Intent(this, MainActivity::class.java))
-                finishAffinity()
-            }
-        }
-        return true
-    }
 }
