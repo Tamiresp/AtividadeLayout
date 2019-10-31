@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish()
         }
+
         btnEnter.setOnClickListener {
             val intent = Intent(this, ResultLoginActivity::class.java).apply {
                 putExtra("login", editLogin.editableText.toString())
@@ -59,7 +60,6 @@ class LoginActivity : AppCompatActivity() {
                     editPassword.windowToken, 0)
             }
         }
-
         supportActionBar?.title = getString(R.string.login)
     }
 

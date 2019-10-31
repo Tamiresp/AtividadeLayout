@@ -25,6 +25,7 @@ class RegisterActivity : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish()
         }
+
         btnEnter.setOnClickListener {
             val intent = Intent(this, ResultRegisterActivity::class.java).apply {
                 putExtra("name", editName.editableText.toString())
@@ -57,7 +58,6 @@ class RegisterActivity : AppCompatActivity() {
                     editCpf.windowToken, 0)
             }
         }
-
         supportActionBar?.title = getString(R.string.register)
     }
 
