@@ -1,4 +1,4 @@
-package com.example.atividadelogin
+package com.example.atividadelogin.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,8 +8,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.atividadelogin.R
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -21,17 +23,22 @@ class RegisterActivity : AppCompatActivity() {
         val btnEnter = findViewById<Button>(R.id.enterRegister)
         val editName = findViewById<EditText>(R.id.name)
         val editCpf = findViewById<EditText>(R.id.cpf)
+        val editLogin = findViewById<EditText>(R.id.loginRegister)
+        val editPassword = findViewById<EditText>(R.id.passwordRegister)
 
         btnCancel.setOnClickListener {
             finish()
         }
 
         btnEnter.setOnClickListener {
-            val intent = Intent(this, ResultRegisterActivity::class.java).apply {
+            val intent = Intent(this, LoginActivity::class.java).apply {
                 putExtra("name", editName.editableText.toString())
                 putExtra("cpf", editCpf.editableText.toString())
+                putExtra("loginRegister", editLogin.editableText.toString())
+                putExtra("passwordRegister", editPassword.editableText.toString())
             }
-            if (TextUtils.isEmpty(editName.text) || TextUtils.isEmpty(editCpf.text)){
+            if (TextUtils.isEmpty(editName.text) || TextUtils.isEmpty(editCpf.text)
+                || TextUtils.isEmpty(editLogin.text) || TextUtils.isEmpty(editLogin.text)){
                 val builder = AlertDialog.Builder(this)
                 builder.setCancelable(false)
                 builder.setMessage(R.string.campos)
@@ -41,6 +48,7 @@ class RegisterActivity : AppCompatActivity() {
                 val dialog = builder.create()
                 dialog.show()
             } else{
+                Toast.makeText(this, R.string.sucesso, Toast.LENGTH_LONG).show()
                 startActivity(intent)
             }
         }
@@ -53,6 +61,20 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         editCpf.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                    editCpf.windowToken, 0)
+            }
+        }
+
+        editLogin.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                    editCpf.windowToken, 0)
+            }
+        }
+
+        editPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
                     editCpf.windowToken, 0)

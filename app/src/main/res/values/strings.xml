@@ -15,4 +15,5 @@
     <string name="txtLogin">Seu login é: </string>
     <string name="ok">OK</string>
     <string name="campos">Preencha todos os campos</string>
+    <string name="sucesso">Cadastrado com sucesso!</string>
 </resources>

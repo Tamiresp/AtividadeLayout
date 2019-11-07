@@ -1,8 +1,9 @@
-package com.example.atividadelogin
+package com.example.atividadelogin.activities
 
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.atividadelogin.R
 
 class ResultLoginActivity : AppCompatActivity() {
 

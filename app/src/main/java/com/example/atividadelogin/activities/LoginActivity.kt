@@ -1,16 +1,16 @@
-package com.example.atividadelogin
+package com.example.atividadelogin.activities
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.MenuItem
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.atividadelogin.R
 
 
 class LoginActivity : AppCompatActivity() {
@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnEnter.setOnClickListener {
-            val intent = Intent(this, ResultLoginActivity::class.java).apply {
+            val intent = Intent(this, ListActivity::class.java).apply {
                 putExtra("login", editLogin.editableText.toString())
                 putExtra("password", editPassword.editableText.toString())
             }
