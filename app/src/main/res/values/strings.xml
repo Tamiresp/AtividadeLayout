@@ -16,4 +16,13 @@
     <string name="ok">OK</string>
     <string name="campos">Preencha todos os campos</string>
     <string name="sucesso">Cadastrado com sucesso!</string>
+    <string name="titlePage">ToDo</string>
+    <string name="validation_empty">Preencha o campo</string>
+    <string name="txtTodo">New ToDo</string>
+    <string name="addTodo">Add</string>
+    <string name="bemVindo">Bem Vindo(a)</string>
+    <string name="btnDelete">delete</string>
+    <string name="delete">Deseja deletar o item?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>

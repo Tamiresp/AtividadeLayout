@@ -1,5 +1,5 @@
 package com.example.atividadelogin.utils
 
-class User {
+data class User (val todo: String){
 
 }
