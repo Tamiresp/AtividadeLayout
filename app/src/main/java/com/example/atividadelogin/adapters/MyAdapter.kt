@@ -15,6 +15,11 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user: User = users[position]
         holder.title.text = user.todo
+        deleteTask(holder, position)
+        updateTask(holder, position)
+    }
+
+    private fun deleteTask(holder: MyViewHolder, position: Int){
         holder.btnDelete.setOnClickListener {
             users.removeAt(position)
             notifyItemRemoved(position)
@@ -26,6 +31,14 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
     fun addTask(user: User){
         users.add(user)
         notifyItemInserted(itemCount)
+    }
+
+    private fun updateTask(holder: MyViewHolder, position: Int){
+        holder.btnEdit.setOnClickListener {
+            users[position] = User("teste")
+            notifyDataSetChanged()
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
