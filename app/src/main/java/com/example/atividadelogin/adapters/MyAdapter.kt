@@ -1,13 +1,18 @@
 package com.example.atividadelogin.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atividadelogin.R
 import com.example.atividadelogin.utils.MyViewHolder
 import com.example.atividadelogin.utils.User
+import kotlinx.android.synthetic.main.dialog_delete_todo.view.*
+import kotlinx.android.synthetic.main.dialog_new_todo.view.*
 
 class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyViewHolder>() {
+    private lateinit var mDialogView: View
     override fun getItemCount(): Int {
         return users.size
     }
@@ -21,9 +26,7 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
 
     private fun deleteTask(holder: MyViewHolder, position: Int){
         holder.btnDelete.setOnClickListener {
-            users.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, this.itemCount)
+            alertDelete(holder, position)
         }
 
     }
@@ -35,9 +38,48 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
 
     private fun updateTask(holder: MyViewHolder, position: Int){
         holder.btnEdit.setOnClickListener {
-            users[position] = User("Editado")
-            notifyItemChanged(position)
+            showUpdateTaskDialog(holder, position)
+        }
+    }
 
+    private fun showUpdateTaskDialog(holder: MyViewHolder, position: Int) {
+        mDialogView = LayoutInflater.from(holder.itemView.context).inflate(R.layout.dialog_new_todo, null)
+        val mBuilder = AlertDialog.Builder(holder.itemView.context)
+            .setView(mDialogView)
+            .setTitle(R.string.txtTodoupdate)
+
+        val  mAlertDialog = mBuilder.show()
+
+        mDialogView.dialogAddBtn.setOnClickListener {
+            mAlertDialog.dismiss()
+            val todoEdit = mDialogView.todoEditText.text.toString()
+            users[position] = User(todoEdit)
+            notifyItemChanged(position)
+        }
+
+        mDialogView.dialogCancelBtn.setOnClickListener {
+            mAlertDialog.dismiss()
+        }
+    }
+
+    private fun alertDelete(holder: MyViewHolder, position: Int) {
+        mDialogView = LayoutInflater.from(holder.itemView.context).inflate(R.layout.dialog_delete_todo, null)
+        val mBuilder = AlertDialog.Builder(holder.itemView.context)
+            .setView(mDialogView)
+            .setTitle(R.string.delete)
+
+        val  mAlertDialog = mBuilder.show()
+        mDialogView.dialogDelete.setText(R.string.btnDelete)
+
+        mDialogView.dialogDelete.setOnClickListener {
+            mAlertDialog.dismiss()
+            users.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, this.itemCount)
+        }
+
+        mDialogView.dialogCancelDelete.setOnClickListener {
+            mAlertDialog.dismiss()
         }
     }
 

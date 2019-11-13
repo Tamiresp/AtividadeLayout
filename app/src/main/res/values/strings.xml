@@ -19,6 +19,7 @@
     <string name="titlePage">ToDo</string>
     <string name="validation_empty">Preencha o campo</string>
     <string name="txtTodo">New ToDo</string>
+    <string name="txtTodoupdate">Update ToDo</string>
     <string name="addTodo">Add</string>
     <string name="bemVindo">Bem Vindo(a)</string>
     <string name="btnDelete">delete</string>
