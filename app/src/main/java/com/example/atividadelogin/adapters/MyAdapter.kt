@@ -36,7 +36,7 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
     private fun updateTask(holder: MyViewHolder, position: Int){
         holder.btnEdit.setOnClickListener {
             users[position] = User("Editado")
-            notifyDataSetChanged()
+            notifyItemChanged(position)
 
         }
     }

@@ -42,6 +42,7 @@ class ListActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
+
     }
 
     private fun showCreateTaskDialog() {
@@ -56,7 +57,6 @@ class ListActivity : AppCompatActivity() {
             mAlertDialog.dismiss()
             val todoEdit = mDialogView.todoEditText.text.toString()
             adapter = MyAdapter(users)
-            //adapter = MyAdapter(mutableListOf<User>())
             recyclerView.adapter = adapter
             adapter.addTask(User(todoEdit))
         }
@@ -75,19 +75,5 @@ class ListActivity : AppCompatActivity() {
         }
         return true
     }
-
-    fun alertDelete(){
-        val builder = AlertDialog.Builder(this)
-        builder.setCancelable(false)
-        builder.setMessage(R.string.delete)
-        builder.setPositiveButton(R.string.yes) { dialog, _ ->
-            val dialog = builder.create()
-            dialog.show()
-            }
-            builder.setNegativeButton(R.string.no) { dialog, _ ->
-                dialog.dismiss()
-            }
-    }
-
 
 }
