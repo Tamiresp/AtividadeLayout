@@ -1,5 +1,6 @@
 package com.example.atividadelogin.activities
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
+import com.example.atividadelogin.data.DatabaseLogin
+import com.example.atividadelogin.utils.Contract
 
 
 class LoginActivity : AppCompatActivity() {

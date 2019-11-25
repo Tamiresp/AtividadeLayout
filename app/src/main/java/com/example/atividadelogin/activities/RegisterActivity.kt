@@ -1,5 +1,6 @@
 package com.example.atividadelogin.activities
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
+import com.example.atividadelogin.data.DatabaseLogin
+import com.example.atividadelogin.utils.Contract
+import javax.net.ssl.HandshakeCompletedEvent
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -25,6 +29,8 @@ class RegisterActivity : AppCompatActivity() {
         val editCpf = findViewById<EditText>(R.id.cpf)
         val editLogin = findViewById<EditText>(R.id.loginRegister)
         val editPassword = findViewById<EditText>(R.id.passwordRegister)
+        val dbHelper = DatabaseLogin(this)
+
 
         btnCancel.setOnClickListener {
             finish()
@@ -49,6 +55,15 @@ class RegisterActivity : AppCompatActivity() {
                 dialog.show()
             } else{
                 Toast.makeText(this, R.string.sucesso, Toast.LENGTH_LONG).show()
+
+                val db = dbHelper.writableDatabase
+
+                val values = ContentValues().apply {
+                    put(Contract.LoginEntry.COLUMN_NAME_LOGIN, editLogin.text.toString())
+                    put(Contract.LoginEntry.COLUMN_NAME_PASSWORD, editPassword.text.toString())
+
+                }
+                val newRowId = db?.insert(Contract.LoginEntry.TABLE_NAME, null, values)
                 startActivity(intent)
             }
         }
@@ -81,6 +96,17 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         supportActionBar?.title = getString(R.string.register)
+
+        val db = dbHelper.readableDatabase
+
+        val projection = arrayOf(Contract.LoginEntry.COLUMN_NAME_ID, Contract.LoginEntry.COLUMN_NAME_LOGIN, Contract.LoginEntry.COLUMN_NAME_PASSWORD)
+
+        val selection = "${Contract.LoginEntry.COLUMN_NAME_LOGIN} = ?"
+        val selectionArgs = arrayOf("My Title")
+
+        val sortOrder = "${Contract.LoginEntry.COLUMN_NAME_LOGIN} DESC"
+
+
     }
 
 }
