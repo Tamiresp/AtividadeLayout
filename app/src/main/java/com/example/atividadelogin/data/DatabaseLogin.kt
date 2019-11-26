@@ -19,7 +19,7 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
     private val SQL_DELETE_ENTRIES_LOGIN = "DROP TABLE IF EXISTS ${Contract.LoginEntry.TABLE_NAME}"
 
     override fun onCreate(db: SQLiteDatabase?) {
-        Log.d("MyDatabase", "Creating: $SQL_CREATE_ENTRIES_LOGIN")
+        Log.d("MyDatabase", "Creating: ${Contract.LoginEntry.TABLE_NAME}")
         db?.execSQL(SQL_CREATE_ENTRIES_LOGIN)
     }
 
@@ -47,9 +47,9 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
     }
 
     fun getLog(id: Int) : Cursor {
-        return getReadableDatabase()
-            .query(Contract.LoginEntry.TABLE_NAME, arrayOf(BaseColumns._ID, Contract.LoginEntry.COLUMN_NAME_LOGIN,
-                Contract.LoginEntry.COLUMN_NAME_PASSWORD), "${BaseColumns._ID}=${id}", null,
+        return readableDatabase
+            .query(Contract.LoginEntry.TABLE_NAME, arrayOf(Contract.LoginEntry.COLUMN_NAME_ID, Contract.LoginEntry.COLUMN_NAME_LOGIN,
+                Contract.LoginEntry.COLUMN_NAME_PASSWORD), "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null,
                 null, null, null)
     }
 
@@ -59,10 +59,10 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
         values.put(Contract.LoginEntry.COLUMN_NAME_LOGIN, login)
         values.put(Contract.LoginEntry.COLUMN_NAME_PASSWORD, password)
 
-        getWritableDatabase().update(SQL_CREATE_ENTRIES_LOGIN, values, "${BaseColumns._ID}=${id}", null)
+        writableDatabase.update(Contract.LoginEntry.TABLE_NAME, values, "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null)
     }
 
     fun removeLog(id: Int): Int {
-        return writableDatabase.delete(SQL_CREATE_ENTRIES_LOGIN, "${BaseColumns._ID}=${id}", null)
+        return writableDatabase.delete(Contract.LoginEntry.TABLE_NAME, "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null)
     }
 }

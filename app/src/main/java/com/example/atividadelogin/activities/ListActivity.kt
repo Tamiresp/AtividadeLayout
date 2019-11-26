@@ -1,6 +1,8 @@
 package com.example.atividadelogin.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -21,6 +23,7 @@ class ListActivity : AppCompatActivity() {
     private val users = ArrayList<User>()
     private lateinit var mDialogView: View
     private val dbHelper = DatabaseUser(this)
+    lateinit var login: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +33,9 @@ class ListActivity : AppCompatActivity() {
 
         val txtLogin = textView
 
-        txtLogin.text = getString(R.string.bemVindo) + " " + intent.getStringExtra("login")
+         login = intent.getStringExtra("login")
+
+        txtLogin.text = getString(R.string.bemVindo) + " " + login
 
         supportActionBar?.title = getString(R.string.titlePage)
 
@@ -63,14 +68,12 @@ class ListActivity : AppCompatActivity() {
             adapter.addTask(User(todoEdit))
 
             dbHelper.insertLog(todoEdit)
-//
-//
-//            val db = dbHelper.writableDatabase
-//
-//            val values = ContentValues().apply {
-//                put(Contract.UserEntry.COLUMN_NAME_TITLE, todoEdit)
-//            }
-//            val newRowId = db?.insert(Contract.UserEntry.TABLE_NAME, null, values)
+
+            val col = dbHelper.getLogs().getColumnName(1)
+
+            if (col == login){
+                Log.e("ss", "j")
+            }
         }
 
         mDialogView.dialogCancelBtn.setOnClickListener {
