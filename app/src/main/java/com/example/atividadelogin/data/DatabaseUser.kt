@@ -13,8 +13,8 @@ class DatabaseUser(context: Context) : SQLiteOpenHelper(context, "todo.db", null
 
     private val SQL_CREATE_ENTRIES =
         "CREATE TABLE ${Contract.UserEntry.TABLE_NAME} (" +
-                "${Contract.UserEntry.ID} INTEGER NOT NULL," +
-               // "FOREIGN KEY ${Contract.UserEntry.ID} REFERENCES ${Contract.LoginEntry.TABLE_NAME}(${Contract.LoginEntry.COLUMN_NAME_ID})," +
+                //"${Contract.UserEntry.ID} INTEGER NOT NULL," +
+                "FOREIGN KEY ${Contract.UserEntry.ID} REFERENCES ${Contract.LoginEntry.TABLE_NAME}(${Contract.LoginEntry.COLUMN_NAME_ID})," +
                 "${Contract.UserEntry.COLUMN_NAME_TITLE} TEXT)"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${Contract.UserEntry.TABLE_NAME}"
@@ -22,25 +22,27 @@ class DatabaseUser(context: Context) : SQLiteOpenHelper(context, "todo.db", null
     fun insertLog(text: String) {
         val values = ContentValues()
         values.put(Contract.UserEntry.COLUMN_NAME_TITLE, text)
-        writableDatabase.insert(SQL_CREATE_ENTRIES, null, values)
+        writableDatabase.insert(Contract.UserEntry.TABLE_NAME, null, values)
     }
 
     fun getLogs(): Cursor {
         return readableDatabase
-            .query(SQL_CREATE_ENTRIES, arrayOf(BaseColumns._ID, Contract.UserEntry.COLUMN_NAME_TITLE
+            .query(Contract.UserEntry.TABLE_NAME, arrayOf(BaseColumns._ID, Contract.UserEntry.COLUMN_NAME_TITLE
                 ), null, null, null, null, null)
     }
 
     fun getLog(id: Int) : Cursor {
-        return getReadableDatabase()
-            .query(SQL_CREATE_ENTRIES, arrayOf(BaseColumns._ID, Contract.UserEntry.COLUMN_NAME_TITLE), "${BaseColumns._ID}=${id}", null, null, null, null)
+        return readableDatabase
+            .query(Contract.UserEntry.TABLE_NAME, arrayOf(BaseColumns._ID, Contract.UserEntry.COLUMN_NAME_TITLE),
+                "${BaseColumns._ID}=${id}", null, null, null, null)
     }
 
     fun updateLog(id: Int, text: String) {
         val values = ContentValues()
+        values.put(Contract.UserEntry.ID, id)
         values.put(Contract.UserEntry.COLUMN_NAME_TITLE, text)
 
-        getWritableDatabase().update(SQL_CREATE_ENTRIES, values, "${BaseColumns._ID}=${id}", null)
+        writableDatabase.update(SQL_CREATE_ENTRIES, values, "${BaseColumns._ID}=${id}", null)
     }
 
     fun removeLog(id: Int): Int {

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atividadelogin.R
+import com.example.atividadelogin.data.DatabaseUser
 import com.example.atividadelogin.utils.MyViewHolder
 import com.example.atividadelogin.utils.User
 import kotlinx.android.synthetic.main.dialog_delete_todo.view.*
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.dialog_new_todo.view.*
 
 class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyViewHolder>() {
     private lateinit var mDialogView: View
+
     override fun getItemCount(): Int {
         return users.size
     }
@@ -43,6 +45,7 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
     }
 
     private fun showUpdateTaskDialog(holder: MyViewHolder, position: Int) {
+        val dbHelper = DatabaseUser(holder.itemView.context)
         mDialogView = LayoutInflater.from(holder.itemView.context).inflate(R.layout.dialog_new_todo, null)
         val mBuilder = AlertDialog.Builder(holder.itemView.context)
             .setView(mDialogView)
@@ -55,6 +58,8 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
             val todoEdit = mDialogView.todoEditText.text.toString()
             users[position] = User(todoEdit)
             notifyItemChanged(position)
+
+            dbHelper.updateLog(position, todoEdit)
         }
 
         mDialogView.dialogCancelBtn.setOnClickListener {

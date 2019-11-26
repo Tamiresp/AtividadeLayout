@@ -1,6 +1,5 @@
 package com.example.atividadelogin.activities
 
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
 import com.example.atividadelogin.data.DatabaseLogin
 import com.example.atividadelogin.utils.Contract
-import javax.net.ssl.HandshakeCompletedEvent
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -55,15 +53,9 @@ class RegisterActivity : AppCompatActivity() {
                 dialog.show()
             } else{
                 Toast.makeText(this, R.string.sucesso, Toast.LENGTH_LONG).show()
+                dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
+                val id = dbHelper.getLogs()
 
-                val db = dbHelper.writableDatabase
-
-                val values = ContentValues().apply {
-                    put(Contract.LoginEntry.COLUMN_NAME_LOGIN, editLogin.text.toString())
-                    put(Contract.LoginEntry.COLUMN_NAME_PASSWORD, editPassword.text.toString())
-
-                }
-                val newRowId = db?.insert(Contract.LoginEntry.TABLE_NAME, null, values)
                 startActivity(intent)
             }
         }
