@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.provider.BaseColumns
 import android.util.Log
 import com.example.atividadelogin.utils.Contract
 
@@ -15,6 +14,8 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
                 "${Contract.LoginEntry.COLUMN_NAME_ID} INTEGER NOT NUL PRIMARY KEY AUTOINCREMENT," +
                 "${Contract.LoginEntry.COLUMN_NAME_LOGIN} TEXT," +
                 "${Contract.LoginEntry.COLUMN_NAME_PASSWORD} TEXT)"
+
+    //TODO relacao de 1 pra n com a Task, a Task vai estar associada a um Login ou um Login a varias Tasks?
 
     private val SQL_DELETE_ENTRIES_LOGIN = "DROP TABLE IF EXISTS ${Contract.LoginEntry.TABLE_NAME}"
 
@@ -51,6 +52,7 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
             .query(Contract.LoginEntry.TABLE_NAME, arrayOf(Contract.LoginEntry.COLUMN_NAME_ID, Contract.LoginEntry.COLUMN_NAME_LOGIN,
                 Contract.LoginEntry.COLUMN_NAME_PASSWORD), "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null,
                 null, null, null)
+        // TODO ID da task?
     }
 
     fun updateLog(id: Int, login: String, password: String) {

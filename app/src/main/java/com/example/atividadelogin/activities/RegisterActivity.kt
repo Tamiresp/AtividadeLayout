@@ -13,7 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
 import com.example.atividadelogin.data.DatabaseLogin
-import com.example.atividadelogin.utils.Contract
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -54,7 +53,6 @@ class RegisterActivity : AppCompatActivity() {
             } else{
                 Toast.makeText(this, R.string.sucesso, Toast.LENGTH_LONG).show()
                 dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
-                val id = dbHelper.getLogs()
 
                 startActivity(intent)
             }
@@ -88,17 +86,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         supportActionBar?.title = getString(R.string.register)
-
-        val db = dbHelper.readableDatabase
-
-        val projection = arrayOf(Contract.LoginEntry.COLUMN_NAME_ID, Contract.LoginEntry.COLUMN_NAME_LOGIN, Contract.LoginEntry.COLUMN_NAME_PASSWORD)
-
-        val selection = "${Contract.LoginEntry.COLUMN_NAME_LOGIN} = ?"
-        val selectionArgs = arrayOf("My Title")
-
-        val sortOrder = "${Contract.LoginEntry.COLUMN_NAME_LOGIN} DESC"
-
-
     }
 
 }

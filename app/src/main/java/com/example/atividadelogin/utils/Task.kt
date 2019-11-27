@@ -1,3 +1,3 @@
 package com.example.atividadelogin.utils
 
-data class User (val todo: String)
+data class Task (val todo: String)
