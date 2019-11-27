@@ -28,4 +28,5 @@
     <string name="no">Não</string>
     <string name="no_user">Usuário não encontrado</string>
     <string name="no_pass">Senha incorreta</string>
+    <string name="cadastrado">Usuário já cadastrado</string>
 </resources>

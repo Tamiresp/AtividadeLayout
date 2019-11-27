@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
 import com.example.atividadelogin.data.DatabaseLogin
+import com.example.atividadelogin.utils.Contract
 import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : AppCompatActivity() {
@@ -40,12 +41,25 @@ class RegisterActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(editName.text) || TextUtils.isEmpty(editCpf.text)
                 || TextUtils.isEmpty(editLogin.text) || TextUtils.isEmpty(editLogin.text)){
                 Snackbar.make(findViewById(R.id.register_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
-            } else{
-                Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
-                dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
-
-                startActivity(intent)
             }
+
+            val itemLogin = mutableListOf<String>()
+            with(dbHelper.getLogs()) {
+                while (moveToNext()) {
+                    val login = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
+                    itemLogin.add(login)
+                }
+            }
+
+
+            if (!itemLogin.contains(editLogin.text.toString())){
+                dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
+                Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
+                startActivity(intent)
+            } else {
+                Snackbar.make(findViewById(R.id.register_layout), R.string.cadastrado, Snackbar.LENGTH_LONG).show()
+            }
+
         }
 
         editName.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->

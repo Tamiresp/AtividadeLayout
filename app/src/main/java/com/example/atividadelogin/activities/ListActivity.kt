@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.atividadelogin.R
 import com.example.atividadelogin.adapters.MyAdapter
 import com.example.atividadelogin.data.DatabaseTask
+import com.example.atividadelogin.utils.Contract
 import com.example.atividadelogin.utils.Task
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.dialog_new_todo.view.*
@@ -43,6 +44,17 @@ class ListActivity : AppCompatActivity() {
 
         btnAdd.setOnClickListener {
             showCreateTaskDialog()
+        }
+
+        val itemsId = mutableListOf<String>()
+        with(dbHelper.getLogs()) {
+            while (moveToNext()) {
+                val itemId = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_NAME_TITLE))
+                itemsId.add(itemId)
+                adapter = MyAdapter(users)
+                recyclerView.adapter = adapter
+                adapter.addTask(Task(itemId))
+            }
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
