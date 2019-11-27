@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atividadelogin.R
-import com.example.atividadelogin.data.DatabaseUser
+import com.example.atividadelogin.data.DatabaseTask
+import com.example.atividadelogin.utils.Contract
 import com.example.atividadelogin.utils.MyViewHolder
-import com.example.atividadelogin.utils.User
+import com.example.atividadelogin.utils.Task
 import kotlinx.android.synthetic.main.dialog_delete_todo.view.*
 import kotlinx.android.synthetic.main.dialog_new_todo.view.*
 
-class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyViewHolder>() {
+class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyViewHolder>() {
     private lateinit var mDialogView: View
 
     override fun getItemCount(): Int {
@@ -20,7 +21,7 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val user: User = users[position]
+        val user: Task = users[position]
         holder.title.text = user.todo
         deleteTask(holder, position)
         updateTask(holder, position)
@@ -30,10 +31,9 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
         holder.btnDelete.setOnClickListener {
             alertDelete(holder, position)
         }
-
     }
 
-    fun addTask(user: User){
+    fun addTask(user: Task){
         users.add(user)
         notifyItemInserted(itemCount)
     }
@@ -45,7 +45,7 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
     }
 
     private fun showUpdateTaskDialog(holder: MyViewHolder, position: Int) {
-        val dbHelper = DatabaseUser(holder.itemView.context)
+        val dbHelper = DatabaseTask(holder.itemView.context)
         mDialogView = LayoutInflater.from(holder.itemView.context).inflate(R.layout.dialog_new_todo, null)
         val mBuilder = AlertDialog.Builder(holder.itemView.context)
             .setView(mDialogView)
@@ -56,10 +56,19 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
         mDialogView.dialogAddBtn.setOnClickListener {
             mAlertDialog.dismiss()
             val todoEdit = mDialogView.todoEditText.text.toString()
-            users[position] = User(todoEdit)
+            users[position] = Task(todoEdit)
             notifyItemChanged(position)
 
-            dbHelper.updateLog(position, todoEdit)
+            val itemsId = mutableListOf<Int>()
+
+            with(dbHelper.getLogs()) {
+                while (moveToNext()) {
+                    val itemId = getInt(getColumnIndexOrThrow(Contract.TaskEntry.ID))
+                    itemsId.add(itemId)
+                }
+            }
+
+            dbHelper.updateLog(itemsId[position], todoEdit)
         }
 
         mDialogView.dialogCancelBtn.setOnClickListener {
@@ -68,6 +77,7 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
     }
 
     private fun alertDelete(holder: MyViewHolder, position: Int) {
+        val dbHelper = DatabaseTask(holder.itemView.context)
         mDialogView = LayoutInflater.from(holder.itemView.context).inflate(R.layout.dialog_delete_todo, null)
         val mBuilder = AlertDialog.Builder(holder.itemView.context)
             .setView(mDialogView)
@@ -80,7 +90,17 @@ class MyAdapter (private val users: MutableList<User>): RecyclerView.Adapter<MyV
             mAlertDialog.dismiss()
             users.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeChanged(position, this.itemCount)
+            notifyItemRangeChanged(position, itemCount)
+
+            val itemsId = mutableListOf<Int>()
+
+            with(dbHelper.getLogs()) {
+                while (moveToNext()) {
+                    val itemId = getInt(getColumnIndexOrThrow(Contract.TaskEntry.ID))
+                    itemsId.add(itemId)
+                }
+            }
+            dbHelper.removeLog(itemsId[position])
         }
 
         mDialogView.dialogCancelDelete.setOnClickListener {
