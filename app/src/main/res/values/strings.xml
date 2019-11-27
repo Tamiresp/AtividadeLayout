@@ -26,5 +26,6 @@
     <string name="delete">Deseja deletar o item?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
-    <string name="no_user">Usuario nao encontrado</string>
+    <string name="no_user">Usuário não encontrado</string>
+    <string name="no_pass">Senha incorreta</string>
 </resources>

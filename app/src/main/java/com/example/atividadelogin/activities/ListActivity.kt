@@ -31,7 +31,7 @@ class ListActivity : AppCompatActivity() {
 
         val txtLogin = textView
 
-         login = intent.getStringExtra("login")
+        login = intent.getStringExtra("login")
 
         txtLogin.text = getString(R.string.bemVindo) + " " + login
 

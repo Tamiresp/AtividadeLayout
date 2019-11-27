@@ -6,6 +6,7 @@ object Contract {
     object TaskEntry : BaseColumns{
         const val TABLE_NAME = "todo"
         const val ID = "id"
+        const val ID_USER = "id_user"
         const val COLUMN_NAME_TITLE = "text"
 
     }

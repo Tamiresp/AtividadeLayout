@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
 import com.example.atividadelogin.data.DatabaseLogin
@@ -28,6 +26,12 @@ class LoginActivity : AppCompatActivity() {
         val editLogin = findViewById<EditText>(R.id.login)
         val editPassword = findViewById<EditText>(R.id.password)
         val dbHelper = DatabaseLogin(this)
+
+        val login = intent.getStringExtra("loginRegister")
+        val password = intent.getStringExtra("passwordRegister")
+
+        editLogin.setText(login)
+        editPassword.setText(password)
 
         val itemLogin = mutableListOf<String>()
         val itemPass = mutableListOf<String>()
@@ -51,8 +55,10 @@ class LoginActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(editLogin.text) || TextUtils.isEmpty(editPassword.text)) {
                 Snackbar.make(findViewById(R.id.login_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
             } else {
-                if (!itemLogin.contains(editLogin.text.toString()) && !itemPass.contains(editPassword.text.toString())) {
+                if (!itemLogin.contains(editLogin.text.toString())) {
                     Snackbar.make(findViewById(R.id.login_layout), R.string.no_user, Snackbar.LENGTH_LONG).show()
+                } else if (!itemPass.contains(editPassword.text.toString())){
+                        Snackbar.make(findViewById(R.id.login_layout), R.string.no_pass, Snackbar.LENGTH_LONG).show()
                 } else {
                     startActivity(intent)
                 }

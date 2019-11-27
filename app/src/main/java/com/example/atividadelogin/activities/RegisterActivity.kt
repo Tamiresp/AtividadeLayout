@@ -8,11 +8,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
 import com.example.atividadelogin.data.DatabaseLogin
+import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -35,23 +34,14 @@ class RegisterActivity : AppCompatActivity() {
 
         btnEnter.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java).apply {
-                putExtra("name", editName.editableText.toString())
-                putExtra("cpf", editCpf.editableText.toString())
                 putExtra("loginRegister", editLogin.editableText.toString())
                 putExtra("passwordRegister", editPassword.editableText.toString())
             }
             if (TextUtils.isEmpty(editName.text) || TextUtils.isEmpty(editCpf.text)
                 || TextUtils.isEmpty(editLogin.text) || TextUtils.isEmpty(editLogin.text)){
-                val builder = AlertDialog.Builder(this)
-                builder.setCancelable(false)
-                builder.setMessage(R.string.campos)
-                builder.setPositiveButton(R.string.ok) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                val dialog = builder.create()
-                dialog.show()
+                Snackbar.make(findViewById(R.id.register_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
             } else{
-                Toast.makeText(this, R.string.sucesso, Toast.LENGTH_LONG).show()
+                Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
                 dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
 
                 startActivity(intent)
