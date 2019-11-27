@@ -14,7 +14,6 @@ class DatabaseTask(context: Context) : SQLiteOpenHelper(context, "todo.db", null
         "CREATE TABLE ${Contract.TaskEntry.TABLE_NAME} (" +
                 "${Contract.TaskEntry.ID} INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 //"FOREIGN KEY ${Contract.TaskEntry.ID} REFERENCES ${Contract.LoginEntry.TABLE_NAME}(${Contract.LoginEntry.COLUMN_NAME_ID})," +
-                //TODO verificar se vai usar o mesmo ID de Login (colocar ID do login)
                 "${Contract.TaskEntry.COLUMN_NAME_TITLE} TEXT)"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${Contract.TaskEntry.TABLE_NAME}"

@@ -66,8 +66,6 @@ class ListActivity : AppCompatActivity() {
             adapter.addTask(Task(todoEdit))
 
             dbHelper.insertLog(todoEdit)
-
-            //TODO consultar ID do usuario para associar a o item da lista adicionado
         }
 
         mDialogView.dialogCancelBtn.setOnClickListener {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.atividadelogin.R
 import com.example.atividadelogin.data.DatabaseLogin
 import com.example.atividadelogin.utils.Contract
+import com.google.android.material.snackbar.Snackbar
 
 
 class LoginActivity : AppCompatActivity() {
@@ -45,32 +47,12 @@ class LoginActivity : AppCompatActivity() {
         btnEnter.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java).apply {
                 putExtra("login", editLogin.editableText.toString())
-                //putExtra("password", editPassword.editableText.toString())
             }
             if (TextUtils.isEmpty(editLogin.text) || TextUtils.isEmpty(editPassword.text)) {
-//                val builder1 = AlertDialog.Builder(this)
-//                builder1.setCancelable(false)
-//                builder1.setMessage(R.string.campos)
-//                builder1.setPositiveButton(R.string.ok) { dialog, _ ->
-//                    dialog.dismiss()
-//
-//                    val dialog = builder1.create()
-//                    dialog.show()
-//                }
-                // TODO tratar erro
-                Toast.makeText(this, "campos", Toast.LENGTH_LONG).show()
+                Snackbar.make(findViewById(R.id.login_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
             } else {
                 if (!itemLogin.contains(editLogin.text.toString()) && !itemPass.contains(editPassword.text.toString())) {
-//                    val builder = AlertDialog.Builder(this)
-//                    builder.setCancelable(false)
-//                    builder.setMessage(R.string.no_user)
-//                    builder.setPositiveButton(R.string.ok) { dialog, _ ->
-//                        dialog.dismiss()
-//
-//                        val dialog = builder.create()
-//                        dialog.show()
-//                    }
-                    Toast.makeText(this, "usuario", Toast.LENGTH_LONG).show()
+                    Snackbar.make(findViewById(R.id.login_layout), R.string.no_user, Snackbar.LENGTH_LONG).show()
                 } else {
                     startActivity(intent)
                 }
