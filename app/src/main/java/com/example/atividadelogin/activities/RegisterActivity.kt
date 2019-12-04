@@ -15,7 +15,7 @@ import com.example.atividadelogin.utils.Contract
 import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : AppCompatActivity() {
-
+    private lateinit var intent2: Intent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -30,43 +30,15 @@ class RegisterActivity : AppCompatActivity() {
 
         val erro = intent.getStringExtra("erro")
 
-
         btnCancel.setOnClickListener {
             finish()
         }
 
         if (erro != null)
             Snackbar.make(findViewById(R.id.register_layout), erro, Snackbar.LENGTH_LONG).show()
-        else
-
 
         btnEnter.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java).apply {
-                putExtra("loginRegister", editLogin.editableText.toString())
-                putExtra("passwordRegister", editPassword.editableText.toString())
-            }
-            if (TextUtils.isEmpty(editName.text) || TextUtils.isEmpty(editCpf.text)
-                || TextUtils.isEmpty(editLogin.text) || TextUtils.isEmpty(editLogin.text)){
-                Snackbar.make(findViewById(R.id.register_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
-            }
-
-            val itemLogin = mutableListOf<String>()
-            with(dbHelper.getLogs()) {
-                while (moveToNext()) {
-                    val login = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
-                    itemLogin.add(login)
-                }
-            }
-
-
-            if (!itemLogin.contains(editLogin.text.toString())){
-                dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
-                Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
-                startActivity(intent)
-            } else {
-                Snackbar.make(findViewById(R.id.register_layout), R.string.cadastrado, Snackbar.LENGTH_LONG).show()
-            }
-
+            validation(editName, editCpf, editLogin, editPassword, dbHelper)
         }
 
         editName.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
@@ -97,6 +69,39 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         supportActionBar?.title = getString(R.string.register)
+    }
+
+    private fun validation(editName: EditText, editCpf: EditText, editLogin: EditText, editPassword: EditText,
+                           dbHelper: DatabaseLogin){
+        if (!TextUtils.isEmpty(editName.text) || !TextUtils.isEmpty(editCpf.text)
+            || !TextUtils.isEmpty(editLogin.text) || !TextUtils.isEmpty(editLogin.text)){
+            intent2 = Intent(this, LoginActivity::class.java).apply {
+                putExtra("loginRegister", editLogin.editableText.toString())
+                putExtra("passwordRegister", editPassword.editableText.toString())
+            }
+
+            val itemLogin = mutableListOf<String>()
+            with(dbHelper.getLogs()) {
+                while (moveToNext()) {
+                    val login = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
+                    itemLogin.add(login)
+                }
+            }
+
+            if (!itemLogin.contains(editLogin.text.toString())){
+                dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
+                Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
+                startActivity(intent2)
+            } else {
+                Snackbar.make(findViewById(R.id.register_layout), R.string.cadastrado, Snackbar.LENGTH_LONG).show()
+            }
+        } else {
+            Snackbar.make(findViewById(R.id.register_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun emailValidation(){
+        //TODO
     }
 
 }

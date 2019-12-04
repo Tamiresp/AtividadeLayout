@@ -7,6 +7,7 @@
     <string name="password">Password</string>
     <string name="name">Name</string>
     <string name="cpf">CPF</string>
+    <string name="email">Email</string>
     <string name="cancel">Cancel</string>
     <string name="enter">Enter</string>
     <string name="txtName">Seu nome é: </string>
