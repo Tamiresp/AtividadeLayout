@@ -35,7 +35,10 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
-        Snackbar.make(findViewById(R.id.register_layout), erro, Snackbar.LENGTH_LONG).show()
+        if (erro != null)
+            Snackbar.make(findViewById(R.id.register_layout), erro, Snackbar.LENGTH_LONG).show()
+        else
+
 
         btnEnter.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java).apply {

@@ -15,7 +15,8 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/name"/>
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/cpf"
@@ -28,14 +29,16 @@
             android:id="@+id/loginRegister"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/login"/>
+            android:hint="@string/login"
+            android:inputType="textCapCharacters"
+            android:digits="abcdefghijklmnopqrstuvwyzABCDEFGHIJKLMNOPQRSTYWZ0123456789"/>
 
         <EditText
             android:id="@+id/passwordRegister"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword|textCapSentences|textCapWords"/>
 
 
     </LinearLayout>
