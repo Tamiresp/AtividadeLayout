@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AtividadeLogin</string>
+    <string name="app_name">Projeto Android</string>
     <string name="login">Login</string>
     <string name="resultRegister">Result Register</string>
     <string name="resultLogin">Result Login</string>
@@ -29,4 +29,10 @@
     <string name="no_user">Usuário não encontrado</string>
     <string name="no_pass">Senha incorreta</string>
     <string name="cadastrado">Usuário já cadastrado</string>
+    <string name="admin_page">Admin Page</string>
+    <string name="users">Usuários</string>
+    <string name="delete_user">Deseja deletar o usuário?</string>
+    <string name="update_user">Update User</string>
+    <string name="update">Usuário atualizado</string>
+    <string name="delete_list">Usuário deletado</string>
 </resources>
