@@ -28,10 +28,14 @@ class RegisterActivity : AppCompatActivity() {
         val editPassword = findViewById<EditText>(R.id.passwordRegister)
         val dbHelper = DatabaseLogin(this)
 
+        val erro = intent.getStringExtra("erro")
+
 
         btnCancel.setOnClickListener {
             finish()
         }
+
+        Snackbar.make(findViewById(R.id.register_layout), erro, Snackbar.LENGTH_LONG).show()
 
         btnEnter.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java).apply {

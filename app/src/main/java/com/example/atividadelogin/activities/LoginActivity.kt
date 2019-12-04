@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
         val editLogin = findViewById<EditText>(R.id.login)
         val editPassword = findViewById<EditText>(R.id.password)
         val dbHelper = DatabaseLogin(this)
+        var erro: String
 
         val login = intent.getStringExtra("loginRegister")
         val password = intent.getStringExtra("passwordRegister")
@@ -56,7 +57,11 @@ class LoginActivity : AppCompatActivity() {
                 Snackbar.make(findViewById(R.id.login_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
             } else {
                 if (!itemLogin.contains(editLogin.text.toString())) {
-                    Snackbar.make(findViewById(R.id.login_layout), R.string.no_user, Snackbar.LENGTH_LONG).show()
+                    erro = getString(R.string.no_user)
+                    val intentRegisterActivity = Intent(this, RegisterActivity::class.java).apply {
+                        putExtra("erro", erro)
+                    }
+                    startActivity(intentRegisterActivity)
                 } else if (!itemPass.contains(editPassword.text.toString())){
                         Snackbar.make(findViewById(R.id.login_layout), R.string.no_pass, Snackbar.LENGTH_LONG).show()
                 } else {
