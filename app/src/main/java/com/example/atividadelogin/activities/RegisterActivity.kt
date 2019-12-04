@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -75,33 +76,47 @@ class RegisterActivity : AppCompatActivity() {
                            dbHelper: DatabaseLogin){
         if (!TextUtils.isEmpty(editName.text) || !TextUtils.isEmpty(editCpf.text)
             || !TextUtils.isEmpty(editLogin.text) || !TextUtils.isEmpty(editLogin.text)){
-            intent2 = Intent(this, LoginActivity::class.java).apply {
-                putExtra("loginRegister", editLogin.editableText.toString())
-                putExtra("passwordRegister", editPassword.editableText.toString())
-            }
-
-            val itemLogin = mutableListOf<String>()
-            with(dbHelper.getLogs()) {
-                while (moveToNext()) {
-                    val login = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
-                    itemLogin.add(login)
+            if (isValidEmail(editName.text.toString())) {
+                intent2 = Intent(this, LoginActivity::class.java).apply {
+                    putExtra("loginRegister", editLogin.editableText.toString())
+                    putExtra("passwordRegister", editPassword.editableText.toString())
                 }
-            }
 
-            if (!itemLogin.contains(editLogin.text.toString())){
-                dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
-                Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
-                startActivity(intent2)
+                val itemLogin = mutableListOf<String>()
+                with(dbHelper.getLogs()) {
+                    while (moveToNext()) {
+                        val login =
+                            getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
+                        itemLogin.add(login)
+                    }
+                }
+
+                if (!itemLogin.contains(editLogin.text.toString())) {
+                    dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
+                    Snackbar.make(
+                        findViewById(R.id.register_layout),
+                        R.string.sucesso,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    startActivity(intent2)
+                } else {
+                    Snackbar.make(
+                        findViewById(R.id.register_layout),
+                        R.string.cadastrado,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
             } else {
-                Snackbar.make(findViewById(R.id.register_layout), R.string.cadastrado, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(findViewById(R.id.register_layout), R.string.invalid_email, Snackbar.LENGTH_LONG).show()
             }
         } else {
             Snackbar.make(findViewById(R.id.register_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
         }
     }
 
-    private fun emailValidation(){
-        //TODO
+    private fun isValidEmail(target: CharSequence): Boolean {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 
 }
+
