@@ -23,6 +23,7 @@ class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val user: Task = users[position]
         holder.title.text = user.todo
+        holder.date.text = user.date
         deleteTask(holder, position)
         updateTask(holder, position)
     }
@@ -52,11 +53,12 @@ class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyV
             .setTitle(R.string.txtTodoupdate)
 
         val  mAlertDialog = mBuilder.show()
+        val date = mDialogView.date_spinner.selectedItem.toString()
 
         mDialogView.dialogAddBtn.setOnClickListener {
             mAlertDialog.dismiss()
             val todoEdit = mDialogView.todoEditText.text.toString()
-            users[position] = Task(todoEdit)
+            users[position] = Task(todoEdit, date)
             notifyItemChanged(position)
 
             val itemsId = mutableListOf<Int>()
@@ -68,7 +70,7 @@ class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyV
                 }
             }
 
-            dbHelper.updateLog(itemsId[position], todoEdit)
+            dbHelper.updateLog(itemsId[position], todoEdit, date)
         }
 
         mDialogView.dialogCancelBtn.setOnClickListener {

@@ -13,35 +13,40 @@ class DatabaseTask(context: Context) : SQLiteOpenHelper(context, "todo.db", null
     private val SQL_CREATE_ENTRIES =
         "CREATE TABLE ${Contract.TaskEntry.TABLE_NAME} (" +
                 "${Contract.TaskEntry.ID} INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                //"${Contract.TaskEntry.ID_USER} INTEGER NOT NULL," +
-                //"FOREIGN KEY ${Contract.TaskEntry.ID_USER} REFERENCES ${Contract.LoginEntry.TABLE_NAME}" +
+//                "${Contract.TaskEntry.ID_USER} INTEGER NOT NULL," +
+//                "FOREIGN KEY ${Contract.TaskEntry.ID_USER} REFERENCES ${Contract.LoginEntry.TABLE_NAME} (${Contract.LoginEntry.COLUMN_NAME_ID})," +
                // "(${Contract.LoginEntry.COLUMN_NAME_ID})," +
-                "${Contract.TaskEntry.COLUMN_NAME_TITLE} TEXT)"
+                "${Contract.TaskEntry.COLUMN_NAME_TODO} TEXT," +
+                "${Contract.TaskEntry.COLUMN_DATE} TEXT)"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${Contract.TaskEntry.TABLE_NAME}"
 
-    fun insertLog(text: String) {
+    fun insertLog(text: String, date: String) {
         val values = ContentValues()
-        values.put(Contract.TaskEntry.COLUMN_NAME_TITLE, text)
+        values.put(Contract.TaskEntry.COLUMN_NAME_TODO, text)
+        values.put(Contract.TaskEntry.COLUMN_DATE, date)
         writableDatabase.insert(Contract.TaskEntry.TABLE_NAME, null, values)
     }
 
     fun getLogs(): Cursor {
         return readableDatabase
-            .query(Contract.TaskEntry.TABLE_NAME, arrayOf(Contract.TaskEntry.ID, Contract.TaskEntry.COLUMN_NAME_TITLE
+            .query(Contract.TaskEntry.TABLE_NAME, arrayOf(Contract.TaskEntry.ID, Contract.TaskEntry.COLUMN_NAME_TODO,
+                Contract.TaskEntry.COLUMN_DATE
                 ), null, null, null, null, null)
     }
 
     fun getLog(id: Int) : Cursor {
         return readableDatabase
-            .query(Contract.TaskEntry.TABLE_NAME, arrayOf(Contract.TaskEntry.ID, Contract.TaskEntry.COLUMN_NAME_TITLE),
-                "${Contract.TaskEntry.ID}=${id}", null, null, null, null)
+            .query(Contract.TaskEntry.TABLE_NAME, arrayOf(Contract.TaskEntry.COLUMN_NAME_TODO,Contract.TaskEntry.COLUMN_DATE),
+                "${Contract.TaskEntry.ID_USER}=${id}",
+                null, null, null, null)
     }
 
-    fun updateLog(id: Int, text: String) {
+    fun updateLog(id: Int, text: String, date: String) {
         val values = ContentValues()
         values.put(Contract.TaskEntry.ID, id)
-        values.put(Contract.TaskEntry.COLUMN_NAME_TITLE, text)
+        values.put(Contract.TaskEntry.COLUMN_NAME_TODO, text)
+        values.put(Contract.TaskEntry.COLUMN_DATE, date)
 
         writableDatabase.update(Contract.TaskEntry.TABLE_NAME, values, "${Contract.TaskEntry.ID}=${id}", null)
     }

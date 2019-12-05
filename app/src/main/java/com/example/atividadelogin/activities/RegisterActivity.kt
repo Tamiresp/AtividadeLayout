@@ -17,26 +17,22 @@ import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var intent2: Intent
+    private lateinit var editName: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         val btnCancel = findViewById<Button>(R.id.cancelRegister)
         val btnEnter = findViewById<Button>(R.id.enterRegister)
-        val editName = findViewById<EditText>(R.id.name)
+        editName = findViewById(R.id.name)
         val editCpf = findViewById<EditText>(R.id.cpf)
         val editLogin = findViewById<EditText>(R.id.loginRegister)
         val editPassword = findViewById<EditText>(R.id.passwordRegister)
         val dbHelper = DatabaseLogin(this)
 
-        val erro = intent.getStringExtra("erro")
-
         btnCancel.setOnClickListener {
             finish()
         }
-
-        if (erro != null)
-            Snackbar.make(findViewById(R.id.register_layout), erro, Snackbar.LENGTH_LONG).show()
 
         btnEnter.setOnClickListener {
             validation(editName, editCpf, editLogin, editPassword, dbHelper)
@@ -93,18 +89,10 @@ class RegisterActivity : AppCompatActivity() {
 
                 if (!itemLogin.contains(editLogin.text.toString())) {
                     dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
-                    Snackbar.make(
-                        findViewById(R.id.register_layout),
-                        R.string.sucesso,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
                     startActivity(intent2)
                 } else {
-                    Snackbar.make(
-                        findViewById(R.id.register_layout),
-                        R.string.cadastrado,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Snackbar.make(findViewById(R.id.register_layout), R.string.cadastrado, Snackbar.LENGTH_LONG).show()
                 }
             } else {
                 Snackbar.make(findViewById(R.id.register_layout), R.string.invalid_email, Snackbar.LENGTH_LONG).show()
@@ -117,6 +105,5 @@ class RegisterActivity : AppCompatActivity() {
     private fun isValidEmail(target: CharSequence): Boolean {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
-
 }
 

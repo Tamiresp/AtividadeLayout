@@ -36,4 +36,11 @@
     <string name="update_user">Update User</string>
     <string name="update">Usuário atualizado</string>
     <string name="delete_list">Usuário deletado</string>
+    <string name="distracao">Distracao</string>
+    <string name="maps">Mapas</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="invalid_email">Email inválido</string>
+    <string name="incomplet_email_field">Email incompleto</string>
+    <string name="prompt">Selecione o dia</string>
 </resources>
