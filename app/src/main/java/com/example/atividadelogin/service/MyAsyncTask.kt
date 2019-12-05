@@ -7,11 +7,8 @@ import com.example.atividadelogin.R
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.Exception
-import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 interface TaskListener {
     fun onTaskComplete(s: String){
@@ -37,7 +34,7 @@ class MyAsyncTask (private val mContext: Context, private val mListener: TaskLis
         val result = StringBuilder()
         try {
             val url = params[0]
-            urlConnection = url.openConnection() as HttpsURLConnection
+            urlConnection = url.openConnection() as HttpURLConnection
             urlConnection?.doInput = true
             urlConnection?.connectTimeout = 20 * 1000
             urlConnection?.readTimeout = 20 * 1000

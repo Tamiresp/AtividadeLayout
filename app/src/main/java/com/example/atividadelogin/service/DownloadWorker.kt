@@ -11,7 +11,6 @@ import java.lang.Exception
 import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class DownloadWorker (context: Context, workerParams: WorkerParameters): Worker(context, workerParams) {
     private var urlConnection: HttpURLConnection? = null
@@ -20,14 +19,14 @@ class DownloadWorker (context: Context, workerParams: WorkerParameters): Worker(
         val uri = inputData.getString("url")
         val url = URL(uri)
         val result = StringBuilder()
-        //TODO pra que eu vou usar isso?
+
         try {
-            urlConnection = url.openConnection() as HttpsURLConnection
+            urlConnection = url.openConnection() as HttpURLConnection
             urlConnection?.doInput = true
             urlConnection?.connectTimeout = 20 * 1000
             urlConnection?.readTimeout = 20 * 1000
 
-            if (urlConnection?.responseCode == HttpURLConnection.HTTP_OK){
+            if (urlConnection?.responseCode == HttpURLConnection.HTTP_OK ){
                 val buffer = BufferedInputStream(urlConnection?.inputStream)
                 val reader = BufferedReader(InputStreamReader(buffer))
 

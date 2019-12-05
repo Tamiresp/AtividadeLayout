@@ -9,19 +9,20 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.example.atividadelogin.activities.ListActivity
+import com.example.atividadelogin.R
+import com.example.atividadelogin.activities.MainActivity
 
 class MyService : IntentService("MyService"){
     override fun onHandleIntent(intent: Intent?) {
-        //TODO fazer funcionar
         Log.d("MyService", "O servico startou")
         val state = intent!!.getBooleanExtra("state", false)
         callAirPlaneNotification(this, state)
     }
+
     private fun callAirPlaneNotification(context: Context, state: Boolean) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val intent = Intent(context, ListActivity::class.java).apply {
+        val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
@@ -31,9 +32,9 @@ class MyService : IntentService("MyService"){
             intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context, "MYAPP")
-        //builder.setSmallIcon(R.drawable.ic_add_black_24dp)
+        builder.setSmallIcon(R.mipmap.ic_inicial_foreground)
         builder.setContentTitle("My app notification")
-        //builder.setContentText("O estado do airplane mode é: $state")
+        builder.setContentText("Acesse o app " + getString(R.string.app_name))
         builder.priority = NotificationCompat.PRIORITY_HIGH
         builder.setAutoCancel(true)
         builder.setContentIntent(pedingIntent)
@@ -47,5 +48,4 @@ class MyService : IntentService("MyService"){
         val notification = builder.build()
         notificationManager.notify(1234, notification)
     }
-
 }
