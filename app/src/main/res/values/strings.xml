@@ -43,4 +43,7 @@
     <string name="invalid_email">Email inválido</string>
     <string name="incomplet_email_field">Email incompleto</string>
     <string name="prompt">Selecione o dia</string>
+    <string name="distracao_title">Distracao</string>
+    <string name="map_title">Mapa</string>
+
 </resources>

@@ -1,13 +1,16 @@
 package com.example.atividadelogin.activities
 
+import android.annotation.SuppressLint
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.RequiresApi
@@ -33,6 +36,7 @@ class ListActivity : AppCompatActivity() {
     lateinit var login: String
     private val TAG = ListActivity::class.java.simpleName
 
+    @SuppressLint("RestrictedApi")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +97,6 @@ class ListActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-
     }
 
     @SuppressWarnings("ServiceCast")
@@ -143,13 +146,26 @@ class ListActivity : AppCompatActivity() {
             android.R.id.home -> {
                 finish()
             }
+            R.id.action_settings -> {
+                val intent = Intent(this, DistracaoActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.action_maps -> {
+                val intentMap = Intent(this, MapsActivity::class.java)
+                startActivity(intentMap)
+            }
         }
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onDestroy() {
         super.onDestroy()
         dbHelper.close()
-
     }
+
 }
