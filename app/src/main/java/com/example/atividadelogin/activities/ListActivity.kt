@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atividadelogin.R
 import com.example.atividadelogin.adapters.MyAdapter
+import com.example.atividadelogin.data.DatabaseLogin
 import com.example.atividadelogin.data.DatabaseTask
 import com.example.atividadelogin.service.MyJobService
 import com.example.atividadelogin.utils.Contract
@@ -33,6 +34,7 @@ class ListActivity : AppCompatActivity() {
     private val users = ArrayList<Task>()
     private lateinit var mDialogView: View
     private val dbHelper = DatabaseTask(this)
+    private val dbHelperLogin = DatabaseLogin(this)
     lateinit var login: String
     private val TAG = ListActivity::class.java.simpleName
 
@@ -49,8 +51,6 @@ class ListActivity : AppCompatActivity() {
         login = intent.getStringExtra("login")
 
         txtLogin.text = getString(R.string.bemVindo) + " " + login
-
-        supportActionBar?.title = getString(R.string.titlePage)
 
         recyclerView = recycler
 
@@ -74,27 +74,9 @@ class ListActivity : AppCompatActivity() {
             }
         }
 
-//        val itemsId = mutableListOf<Int>()
-//        val itemsTodo = mutableListOf<String>()
-//        with(dbHelper.getLogs()) {
-//            while (moveToNext()) {
-//                val itemId = getInt(getColumnIndexOrThrow(Contract.TaskEntry.ID_USER))
-//                itemsId.add(itemId)
-//
-//                with(dbHelper.getLog(itemsId[position])) {
-//                    while (moveToNext()) {
-//                        val itemTodo = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_NAME_TODO))
-//                        itemsTodo.add(itemTodo)
-//                        adapter = MyAdapter(users)
-//                        recyclerView.adapter = adapter
-//                        adapter.addTask(Task(itemTodo))
-//                    }
-//                }
-//            }
-//        }
-
         myScheduler()
 
+        supportActionBar?.title = getString(R.string.titlePage)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
     }
@@ -135,7 +117,6 @@ class ListActivity : AppCompatActivity() {
 
             dbHelper.insertLog(todoEdit, date)
         }
-
         mDialogView.dialogCancelBtn.setOnClickListener {
             mAlertDialog.dismiss()
         }
@@ -146,7 +127,7 @@ class ListActivity : AppCompatActivity() {
             android.R.id.home -> {
                 finish()
             }
-            R.id.action_settings -> {
+            R.id.action_distracao -> {
                 val intent = Intent(this, DistracaoActivity::class.java)
                 startActivity(intent)
             }
@@ -167,5 +148,4 @@ class ListActivity : AppCompatActivity() {
         super.onDestroy()
         dbHelper.close()
     }
-
 }

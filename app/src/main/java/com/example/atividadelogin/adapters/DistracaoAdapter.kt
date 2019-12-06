@@ -10,7 +10,8 @@ import com.example.atividadelogin.R
 class DistracaoAdapter (private val items: MutableList<String>) : RecyclerView.Adapter<MyViewHolderDistracao>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderDistracao {
         val viewHolder = LayoutInflater.from(parent.context).inflate(R.layout.item_distracao, parent, false)
-        return MyViewHolderDistracao(viewHolder)    }
+        return MyViewHolderDistracao(viewHolder)
+    }
 
     override fun getItemCount(): Int {
         return items.size
@@ -25,9 +26,7 @@ class DistracaoAdapter (private val items: MutableList<String>) : RecyclerView.A
         items.add(item)
         notifyItemInserted(itemCount)
     }
-
 }
 class MyViewHolderDistracao (itemView: View): RecyclerView.ViewHolder(itemView){
     val item: TextView = itemView.findViewById(R.id.item)
-
 }

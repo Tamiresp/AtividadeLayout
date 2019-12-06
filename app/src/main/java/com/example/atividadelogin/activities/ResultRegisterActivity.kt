@@ -19,5 +19,4 @@ class ResultRegisterActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.resultRegister)
     }
-
 }

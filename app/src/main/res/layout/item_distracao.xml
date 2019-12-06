@@ -7,25 +7,13 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingBottom="10dp"
-        android:layout_marginBottom="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="6dp"
-            android:orientation="horizontal">
+        android:layout_height="50dp">
 
             <TextView
                 android:id="@+id/item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="3" />
-
-        </LinearLayout>
-
+                android:layout_gravity="center_vertical" />
 
     </androidx.cardview.widget.CardView>
 

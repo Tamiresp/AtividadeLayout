@@ -69,7 +69,6 @@ class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyV
                     itemsId.add(itemId)
                 }
             }
-
             dbHelper.updateLog(itemsId[position], todoEdit, date)
         }
 
@@ -114,5 +113,4 @@ class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyV
         val viewHolder = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
         return MyViewHolder(viewHolder)
     }
-
 }

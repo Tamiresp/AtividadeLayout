@@ -37,5 +37,4 @@ class MyJobService : JobService() {
             jobFinished(params, needReschedule)
         }
     }
-
 }

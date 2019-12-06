@@ -1,26 +1,32 @@
 package com.example.atividadelogin.activities
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.*
 import com.example.atividadelogin.R
 import com.example.atividadelogin.adapters.DistracaoAdapter
-import com.example.atividadelogin.service.DownloadWorker
+import com.example.atividadelogin.service.MyAsyncTask
+import com.example.atividadelogin.service.TaskListener
 import kotlinx.android.synthetic.main.activity_distracao.*
-import kotlinx.android.synthetic.main.item_distracao.*
+import java.net.URL
+
 
 class DistracaoActivity : AppCompatActivity() {
     private  lateinit var adapter: DistracaoAdapter
     private val items = ArrayList<String>()
     private lateinit var recyclerView: RecyclerView
+    private lateinit var asyncTask: MyAsyncTask
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_distracao)
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.item_distracao, null)
+        val item2 = mDialogView.findViewById<TextView>(R.id.item)
 
         supportActionBar?.title = getString(R.string.distracao_title)
 
@@ -31,6 +37,17 @@ class DistracaoActivity : AppCompatActivity() {
         adapter = DistracaoAdapter(items)
         recyclerView.adapter = adapter
 
+        asyncTask = MyAsyncTask(this, object : TaskListener {
+            override fun onTaskComplete(s: String) {
+                val json = getSharedPreferences("articles", 0)
+
+                for (i in 0..s.length){
+                    val quarta = json.getString("name", "")
+                    item2.text = quarta
+                }
+                adapter.addItem(item2.text.toString())
+            }
+        })
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
     }
@@ -46,24 +63,8 @@ class DistracaoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-       // button2.setOnClickListener {
-            val workManager = WorkManager.getInstance()
-            val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED).build()
-            val inputData = Data.Builder()
-                .putString("url", "https://newsapi.org/v2/everything?q=bitcoin&apiKey=787c71f301b74b4da4709935a3df4c8f").build()
-            val oneTimeWorkRequest = OneTimeWorkRequest.Builder(DownloadWorker::class.java)
-                .setConstraints(constraints)
-                .setInputData(inputData).build()
-
-            workManager.enqueue(oneTimeWorkRequest)
-
-            workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
-                .observe(this, Observer { workInfo ->
-                    if (workInfo != null && workInfo.state.isFinished){
-                        item.text = workInfo.outputData.getString("json")
-                    }
-                })
-       // }
+        asyncTask.execute(
+            URL("https://newsapi.org/v2/everything?q=bitcoin&apiKey=787c71f301b74b4da4709935a3df4c8f")
+        )
     }
 }

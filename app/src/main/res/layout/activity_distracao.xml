@@ -9,14 +9,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_distracao"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="8dp"
-        android:paddingTop="30dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView"
         app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/item_list" />
+        tools:listitem="@layout/item_distracao" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

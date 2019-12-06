@@ -45,5 +45,6 @@
     <string name="prompt">Selecione o dia</string>
     <string name="distracao_title">Distracao</string>
     <string name="map_title">Mapa</string>
+    <string name="title_activity_maps2">Map</string>
 
 </resources>

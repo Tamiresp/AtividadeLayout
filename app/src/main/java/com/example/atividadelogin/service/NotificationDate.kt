@@ -8,8 +8,7 @@ import android.util.Log
 
 class NotificationDate: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-
-        if (intent.action.equals(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
+        if (intent.action.equals(Intent.ACTION_DATE_CHANGED)) {
             Log.d("DateStateChanged", "Mudou estado da data, estado: " +
                     "${intent.getBooleanExtra("state", false)}")
 
@@ -24,7 +23,5 @@ class NotificationDate: BroadcastReceiver() {
         } else {
             Log.e("DateStateChanged", "Aconteceu algum problema, Action ${intent.action}")
         }
-
     }
-
 }

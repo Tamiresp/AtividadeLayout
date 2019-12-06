@@ -3,7 +3,6 @@ package com.example.atividadelogin.service
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.AsyncTask
-import com.example.atividadelogin.R
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -18,15 +17,10 @@ interface TaskListener {
 
 class MyAsyncTask (private val mContext: Context, private val mListener: TaskListener) : AsyncTask<URL, Void, String>(){
     private var urlConnection: HttpURLConnection? = null
-    private val mDialog: ProgressDialog
-
-    init {
-        mDialog = ProgressDialog(mContext)
-    }
+    private val mDialog: ProgressDialog = ProgressDialog(mContext)
 
     override fun onPreExecute() {
         super.onPreExecute()
-        mDialog.setTitle(R.string.app_name)
         mDialog.setMessage("Retrieving data")
         mDialog.show()
     }
@@ -67,5 +61,4 @@ class MyAsyncTask (private val mContext: Context, private val mListener: TaskLis
         mDialog.dismiss()
         mListener.onTaskComplete(result)
     }
-
 }

@@ -17,14 +17,13 @@ import com.google.android.material.snackbar.Snackbar
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var intent2: Intent
-    private lateinit var editName: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         val btnCancel = findViewById<Button>(R.id.cancelRegister)
         val btnEnter = findViewById<Button>(R.id.enterRegister)
-        editName = findViewById(R.id.name)
+        val editName = findViewById<EditText>(R.id.name)
         val editCpf = findViewById<EditText>(R.id.cpf)
         val editLogin = findViewById<EditText>(R.id.loginRegister)
         val editPassword = findViewById<EditText>(R.id.passwordRegister)

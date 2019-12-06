@@ -19,5 +19,4 @@ class ResultLoginActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.resultLogin)
     }
-
 }

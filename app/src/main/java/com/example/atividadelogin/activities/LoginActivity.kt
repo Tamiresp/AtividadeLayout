@@ -52,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, ListActivity::class.java).apply {
                 putExtra("login", editLogin.editableText.toString())
             }
+
             if (TextUtils.isEmpty(editLogin.text) || TextUtils.isEmpty(editPassword.text)) {
                 Snackbar.make(findViewById(R.id.login_layout), R.string.campos, Snackbar.LENGTH_LONG).show()
             } else {
@@ -80,5 +81,4 @@ class LoginActivity : AppCompatActivity() {
         }
         supportActionBar?.title = getString(R.string.login)
     }
-
 }

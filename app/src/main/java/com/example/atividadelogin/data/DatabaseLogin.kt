@@ -11,7 +11,7 @@ import com.example.atividadelogin.utils.Contract
 class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", null, 1) {
     private val SQL_CREATE_ENTRIES_LOGIN =
         "CREATE TABLE ${Contract.LoginEntry.TABLE_NAME} (" +
-                "${Contract.LoginEntry.COLUMN_NAME_ID} INTEGER NOT NUL PRIMARY KEY AUTOINCREMENT," +
+                "${Contract.LoginEntry.COLUMN_NAME_ID} INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "${Contract.LoginEntry.COLUMN_NAME_LOGIN} TEXT," +
                 "${Contract.LoginEntry.COLUMN_NAME_PASSWORD} TEXT)"
 
@@ -40,15 +40,16 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
 
     fun getLogs(): Cursor {
         return readableDatabase
-            .query(Contract.LoginEntry.TABLE_NAME, arrayOf(Contract.LoginEntry.COLUMN_NAME_ID, Contract.LoginEntry.COLUMN_NAME_LOGIN,
-                Contract.LoginEntry.COLUMN_NAME_PASSWORD),
+            .query(Contract.LoginEntry.TABLE_NAME, arrayOf(Contract.LoginEntry.COLUMN_NAME_ID,
+                Contract.LoginEntry.COLUMN_NAME_LOGIN, Contract.LoginEntry.COLUMN_NAME_PASSWORD),
                 null, null, null, null, null)
     }
 
     fun getLog(id: Int) : Cursor {
         return readableDatabase
-            .query(Contract.LoginEntry.TABLE_NAME, arrayOf(Contract.LoginEntry.COLUMN_NAME_ID, Contract.LoginEntry.COLUMN_NAME_LOGIN,
-                Contract.LoginEntry.COLUMN_NAME_PASSWORD), "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null,
+            .query(Contract.LoginEntry.TABLE_NAME, arrayOf(Contract.LoginEntry.COLUMN_NAME_ID,
+                Contract.LoginEntry.COLUMN_NAME_LOGIN, Contract.LoginEntry.COLUMN_NAME_PASSWORD),
+                "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null,
                 null, null, null)
     }
 
@@ -58,10 +59,12 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
         values.put(Contract.LoginEntry.COLUMN_NAME_LOGIN, login)
         values.put(Contract.LoginEntry.COLUMN_NAME_PASSWORD, password)
 
-        writableDatabase.update(Contract.LoginEntry.TABLE_NAME, values, "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null)
+        writableDatabase.update(Contract.LoginEntry.TABLE_NAME, values,
+            "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null)
     }
 
     fun removeLog(id: Int): Int {
-        return writableDatabase.delete(Contract.LoginEntry.TABLE_NAME, "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null)
+        return writableDatabase.delete(Contract.LoginEntry.TABLE_NAME,
+            "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null)
     }
 }
