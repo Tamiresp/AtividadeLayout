@@ -80,14 +80,13 @@ class RegisterActivity : AppCompatActivity() {
                 val itemLogin = mutableListOf<String>()
                 with(dbHelper.getLogs()) {
                     while (moveToNext()) {
-                        val login =
-                            getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
+                        val login = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
                         itemLogin.add(login)
                     }
                 }
 
                 if (!itemLogin.contains(editLogin.text.toString())) {
-                    dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString())
+                    dbHelper.insertLog(editLogin.text.toString(), editPassword.text.toString(), editCpf.text.toString(), editName.text.toString())
                     Snackbar.make(findViewById(R.id.register_layout), R.string.sucesso, Snackbar.LENGTH_LONG).show()
                     startActivity(intent2)
                 } else {

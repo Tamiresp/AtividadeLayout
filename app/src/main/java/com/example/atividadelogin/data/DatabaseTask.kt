@@ -8,16 +8,16 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.atividadelogin.utils.Contract
 
-class DatabaseTask(context: Context) : SQLiteOpenHelper(context, "todo.db", null, 4) {
+class DatabaseTask(context: Context) : SQLiteOpenHelper(context, "todo.db", null, 9) {
 
     private val SQL_CREATE_ENTRIES =
         "CREATE TABLE ${Contract.TaskEntry.TABLE_NAME} (" +
                 "${Contract.TaskEntry.ID} INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-//                "${Contract.TaskEntry.ID_USER} INTEGER NOT NULL," +
-//                "FOREIGN KEY ${Contract.TaskEntry.ID_USER} REFERENCES ${Contract.LoginEntry.TABLE_NAME}" +
-               // "(${Contract.LoginEntry.COLUMN_NAME_ID})," +
+               // "${Contract.TaskEntry.ID_USER} INTEGER NOT NULL," +
                 "${Contract.TaskEntry.COLUMN_NAME_TODO} TEXT," +
                 "${Contract.TaskEntry.COLUMN_DATE} TEXT)"
+//                "FOREIGN KEY (${Contract.TaskEntry.ID_USER}) REFERENCES ${Contract.LoginEntry.TABLE_NAME}" +
+//                "(${Contract.LoginEntry.COLUMN_NAME_ID}))"
 
     private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS ${Contract.TaskEntry.TABLE_NAME}"
 
@@ -31,16 +31,15 @@ class DatabaseTask(context: Context) : SQLiteOpenHelper(context, "todo.db", null
     fun getLogs(): Cursor {
         return readableDatabase
             .query(Contract.TaskEntry.TABLE_NAME, arrayOf(Contract.TaskEntry.ID,
-                //Contract.TaskEntry.ID_USER,
-                Contract.TaskEntry.COLUMN_NAME_TODO, Contract.TaskEntry.COLUMN_DATE),null,
-                //"${Contract.TaskEntry.ID_USER}=${Contract.LoginEntry.COLUMN_NAME_ID}",
+                Contract.TaskEntry.COLUMN_NAME_TODO, Contract.TaskEntry.COLUMN_DATE),
+                null,
                 null, null, null, null)
     }
 
     fun getLog(id: Int) : Cursor {
         return readableDatabase
             .query(Contract.TaskEntry.TABLE_NAME, arrayOf(Contract.TaskEntry.COLUMN_NAME_TODO,
-                Contract.TaskEntry.COLUMN_DATE), "${Contract.TaskEntry.ID_USER}=${id}",
+                Contract.TaskEntry.COLUMN_DATE), "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}",
                 null, null, null, null)
     }
 

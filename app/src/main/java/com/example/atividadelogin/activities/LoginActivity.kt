@@ -33,22 +33,22 @@ class LoginActivity : AppCompatActivity() {
         editLogin.setText(login)
         editPassword.setText(password)
 
-        val itemLogin = mutableListOf<String>()
-        val itemPass = mutableListOf<String>()
-        with(dbHelper.getLogs()) {
-            while (moveToNext()) {
-                val login = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
-                val password = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_PASSWORD))
-                itemLogin.add(login)
-                itemPass.add(password)
-            }
-        }
-
         btnCancel.setOnClickListener {
             finish()
         }
 
         btnEnter.setOnClickListener {
+            val itemLogin = mutableListOf<String>()
+            val itemPass = mutableListOf<String>()
+            with(dbHelper.getLogs()) {
+                while (moveToNext()) {
+                    val login = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
+                    val password = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_PASSWORD))
+                    itemLogin.add(login)
+                    itemPass.add(password)
+                }
+            }
+
             val intent = Intent(this, ListActivity::class.java).apply {
                 putExtra("login", editLogin.editableText.toString())
             }

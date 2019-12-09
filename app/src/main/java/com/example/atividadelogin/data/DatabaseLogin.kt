@@ -8,11 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.atividadelogin.utils.Contract
 
-class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", null, 1) {
+class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", null, 7) {
     private val SQL_CREATE_ENTRIES_LOGIN =
         "CREATE TABLE ${Contract.LoginEntry.TABLE_NAME} (" +
                 "${Contract.LoginEntry.COLUMN_NAME_ID} INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "${Contract.LoginEntry.COLUMN_NAME_LOGIN} TEXT," +
+                "${Contract.LoginEntry.COLUMN_NAME_EMAIL} TEXT," +
+                "${Contract.LoginEntry.COLUMN_NAME_CPF} TEXT," +
                 "${Contract.LoginEntry.COLUMN_NAME_PASSWORD} TEXT)"
 
     private val SQL_DELETE_ENTRIES_LOGIN = "DROP TABLE IF EXISTS ${Contract.LoginEntry.TABLE_NAME}"
@@ -31,10 +33,12 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    fun insertLog(login: String, password: String) {
+    fun insertLog(login: String, password: String, cpf: String, email: String) {
         val values = ContentValues()
         values.put(Contract.LoginEntry.COLUMN_NAME_LOGIN, login)
         values.put(Contract.LoginEntry.COLUMN_NAME_PASSWORD, password)
+        values.put(Contract.LoginEntry.COLUMN_NAME_CPF, cpf)
+        values.put(Contract.LoginEntry.COLUMN_NAME_EMAIL, email)
         writableDatabase.insert(Contract.LoginEntry.TABLE_NAME, null, values)
     }
 
@@ -45,11 +49,11 @@ class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", n
                 null, null, null, null, null)
     }
 
-    fun getLog(id: Int) : Cursor {
+    fun getLog(login: String) : Cursor {
         return readableDatabase
             .query(Contract.LoginEntry.TABLE_NAME, arrayOf(Contract.LoginEntry.COLUMN_NAME_ID,
                 Contract.LoginEntry.COLUMN_NAME_LOGIN, Contract.LoginEntry.COLUMN_NAME_PASSWORD),
-                "${Contract.LoginEntry.COLUMN_NAME_ID}=${id}", null,
+                "${Contract.LoginEntry.COLUMN_NAME_LOGIN}= '${login}'", null,
                 null, null, null)
     }
 

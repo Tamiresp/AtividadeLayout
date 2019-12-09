@@ -60,17 +60,32 @@ class ListActivity : AppCompatActivity() {
             showCreateTaskDialog()
         }
 
-        val itemsId = mutableListOf<String>()
-        val daysWeek = mutableListOf<String>()
-        with(dbHelper.getLogs()) {
+        adapter = MyAdapter(users)
+        recyclerView.adapter = adapter
+
+        val logins = mutableListOf<String>()
+        with(dbHelperLogin.getLogs()) {
             while (moveToNext()) {
-                val itemId = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_NAME_TODO))
-                val day = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_DATE))
-                itemsId.add(itemId)
-                daysWeek.add(day)
-                adapter = MyAdapter(users)
-                recyclerView.adapter = adapter
-                adapter.addTask(Task(itemId, day))
+                val itemLogin = getString(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_LOGIN))
+                logins.add(itemLogin)
+                if (logins.contains(login)){
+                    with(dbHelperLogin.getLog(login)) {
+                        while (moveToNext()) {
+                            val id = getInt(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_ID))
+//                            val itemsTodo = mutableListOf<String>()
+//                            val daysWeek = mutableListOf<String>()
+                            with(dbHelper.getLog(id)) {
+                                while (moveToNext()) {
+                                    val itemTodo = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_NAME_TODO))
+                                    val day = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_DATE))
+//                                    itemsTodo.add(itemTodo)
+//                                    daysWeek.add(day)
+                                    adapter.addTask(Task(itemTodo, day))
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
