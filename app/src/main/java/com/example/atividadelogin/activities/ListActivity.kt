@@ -37,6 +37,7 @@ class ListActivity : AppCompatActivity() {
     private val dbHelperLogin = DatabaseLogin(this)
     lateinit var login: String
     private val TAG = ListActivity::class.java.simpleName
+    private var id: Int = 0
 
     @SuppressLint("RestrictedApi")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -71,7 +72,7 @@ class ListActivity : AppCompatActivity() {
                 if (logins.contains(login)){
                     with(dbHelperLogin.getLog(login)) {
                         while (moveToNext()) {
-                            val id = getInt(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_ID))
+                            id = getInt(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_ID))
 //                            val itemsTodo = mutableListOf<String>()
 //                            val daysWeek = mutableListOf<String>()
                             with(dbHelper.getLog(id)) {
@@ -130,7 +131,7 @@ class ListActivity : AppCompatActivity() {
             recyclerView.adapter = adapter
             adapter.addTask(Task(todoEdit, date))
 
-            dbHelper.insertLog(todoEdit, date)
+            dbHelper.insertLog(todoEdit, date, id)
         }
         mDialogView.dialogCancelBtn.setOnClickListener {
             mAlertDialog.dismiss()

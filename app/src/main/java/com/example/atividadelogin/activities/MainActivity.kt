@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val service = Intent(this, MyService::class.java)
         service.putExtra("state", intent.getBooleanExtra("state", false))
 
-        registerReceiver(mDateStateChanged, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
+        registerReceiver(mDateStateChanged, IntentFilter(Intent.ACTION_DATE_CHANGED))
     }
 
     override fun onPause() {

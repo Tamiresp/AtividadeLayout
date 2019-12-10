@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.atividadelogin.utils.Contract
 
-class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", null, 7) {
+class DatabaseLogin (context: Context) : SQLiteOpenHelper(context, "login.db", null, 3) {
     private val SQL_CREATE_ENTRIES_LOGIN =
         "CREATE TABLE ${Contract.LoginEntry.TABLE_NAME} (" +
                 "${Contract.LoginEntry.COLUMN_NAME_ID} INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
