@@ -73,14 +73,11 @@ class ListActivity : AppCompatActivity() {
                     with(dbHelperLogin.getLog(login)) {
                         while (moveToNext()) {
                             id = getInt(getColumnIndexOrThrow(Contract.LoginEntry.COLUMN_NAME_ID))
-//                            val itemsTodo = mutableListOf<String>()
-//                            val daysWeek = mutableListOf<String>()
                             with(dbHelper.getLog(id)) {
                                 while (moveToNext()) {
                                     val itemTodo = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_NAME_TODO))
                                     val day = getString(getColumnIndexOrThrow(Contract.TaskEntry.COLUMN_DATE))
-//                                    itemsTodo.add(itemTodo)
-//                                    daysWeek.add(day)
+
                                     adapter.addTask(Task(itemTodo, day))
                                 }
                             }

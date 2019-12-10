@@ -69,7 +69,7 @@ class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyV
                     itemsId.add(itemId)
                 }
             }
-            dbHelper.updateLog(itemsId[position], todoEdit, date)
+            dbHelper.updateLog(itemsId[position+1], todoEdit, date)
         }
 
         mDialogView.dialogCancelBtn.setOnClickListener {
@@ -101,7 +101,7 @@ class MyAdapter (private val users: MutableList<Task>): RecyclerView.Adapter<MyV
                     itemsId.add(itemId)
                 }
             }
-            dbHelper.removeLog(itemsId[position])
+            dbHelper.removeLog(itemsId[position+1])
         }
 
         mDialogView.dialogCancelDelete.setOnClickListener {
