@@ -30,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/login"
-            android:inputType="textCapCharacters"
             android:digits="abcdefghijklmnopqrstuvwyzABCDEFGHIJKLMNOPQRSTYWZ0123456789"/>
 
         <EditText
@@ -38,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/password"
-            android:inputType="textPassword|textCapSentences|textCapWords"/>
+            android:inputType="textPassword|textCapSentences|textCapWords|textCapCharacters"/>
 
 
     </LinearLayout>

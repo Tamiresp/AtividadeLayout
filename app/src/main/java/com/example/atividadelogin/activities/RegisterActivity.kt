@@ -64,6 +64,7 @@ class RegisterActivity : AppCompatActivity() {
                     editCpf.windowToken, 0)
             }
         }
+
         supportActionBar?.title = getString(R.string.register)
     }
 
