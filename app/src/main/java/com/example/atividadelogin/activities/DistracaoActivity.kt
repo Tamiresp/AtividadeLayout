@@ -1,32 +1,32 @@
 package com.example.atividadelogin.activities
 
+import ApiDistracao
+import android.app.ProgressDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.atividadelogin.R
 import com.example.atividadelogin.adapters.DistracaoAdapter
-import com.example.atividadelogin.service.MyAsyncTask
-import com.example.atividadelogin.service.TaskListener
+import com.example.atividadelogin.requests.endpoint.IDistracaoEndpoint
+import com.example.atividadelogin.requests.entity_request.ArticlesRequest
+import com.example.atividadelogin.requests.entity_request.DistracaoResponse
 import kotlinx.android.synthetic.main.activity_distracao.*
-import java.net.URL
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DistracaoActivity : AppCompatActivity() {
     private  lateinit var adapter: DistracaoAdapter
-    private val items = ArrayList<String>()
+    private val items = ArrayList<ArticlesRequest>()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var asyncTask: MyAsyncTask
+    private lateinit var mDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        mDialog = ProgressDialog(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_distracao)
-
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.item_distracao, null)
-        val item2 = mDialogView.findViewById<TextView>(R.id.item)
 
         supportActionBar?.title = getString(R.string.distracao_title)
 
@@ -36,18 +36,11 @@ class DistracaoActivity : AppCompatActivity() {
 
         adapter = DistracaoAdapter(items)
         recyclerView.adapter = adapter
+        mDialog.setMessage("Retrieving data")
+        mDialog.show()
 
-        asyncTask = MyAsyncTask(this, object : TaskListener {
-            override fun onTaskComplete(s: String) {
-                val json = getSharedPreferences("articles", 0)
+        loadDistracoes()
 
-                for (i in 0..s.length){
-                    val quarta = json.getString("name", "")
-                    item2.text = quarta
-                }
-                adapter.addItem(item2.text.toString())
-            }
-        })
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
     }
@@ -61,10 +54,24 @@ class DistracaoActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onResume() {
-        super.onResume()
-        asyncTask.execute(
-            URL("https://newsapi.org/v2/everything?q=bitcoin&apiKey=787c71f301b74b4da4709935a3df4c8f")
-        )
+    fun loadDistracoes(){
+        val result = ApiDistracao.getInstance().create(IDistracaoEndpoint::class.java).getDistracoes()
+        result.enqueue(object : Callback<DistracaoResponse> {
+
+            override fun onFailure(call: Call<DistracaoResponse>, t: Throwable) {
+
+            }
+
+            override fun onResponse(
+                call: Call<DistracaoResponse>,
+                response: Response<DistracaoResponse>) {
+                val result: DistracaoResponse = response.body()!!
+
+                for (item in result.listOfArticles ) {
+                    adapter.addItem(ArticlesRequest(item.title, item.author, item.description))
+                }
+                mDialog.dismiss()
+            }
+        })
     }
 }
