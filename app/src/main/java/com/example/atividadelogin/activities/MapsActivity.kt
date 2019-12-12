@@ -1,6 +1,7 @@
 package com.example.atividadelogin.activities
 
 
+import ApiMap
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
@@ -10,28 +11,27 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.work.*
 import com.example.atividadelogin.R
-import com.example.atividadelogin.service.DownloadWorker
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.example.atividadelogin.requests.endpoint.IMapEndPoint
+import com.example.atividadelogin.requests.entity_request.MapRequest
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,38 +70,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val  locationListener = object : LocationListener {
                     override fun onLocationChanged(location: Location?) {
-                        val workManager = WorkManager.getInstance()
-                        val constraints = Constraints.Builder()
-                            .setRequiredNetworkType(NetworkType.CONNECTED).build()
-                        val inputData = Data.Builder()
-                            .putString("url", "http://dados.recife.pe.gov.br/api/3/action/datastore_" +
-                                    "search?resource_id=78fccbb7-b44d-49a8-8c82-bcc1dc8463b4&limit=20").build()
-                        val oneTimeWorkRequest = OneTimeWorkRequest.Builder(DownloadWorker::class.java)
-                            .setConstraints(constraints)
-                            .setInputData(inputData).build()
-
-                        workManager.enqueue(oneTimeWorkRequest)
-
-                        workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
-                            .observe(this@MapsActivity, Observer { workInfo ->
-                                if (workInfo != null && workInfo.state.isFinished){
-
-                                    val out = workInfo.outputData.getString("json")
-
-                                    val obj = JsonObject()
-                                    obj.getAsJsonObject("json")
-
-                                    val result = workInfo.outputData.getString("json")
-                                    latitude = location?.latitude ?: workInfo.outputData.getString("json")?.toDouble()!!
-                                    longitude = location?.longitude ?: workInfo.outputData.getString("json")?.toDouble()!!
-
-                                    val latLng = LatLng(latitude, longitude)
-                                    val marker = mMap.addMarker(MarkerOptions().position(latLng).title("Minha localizacao"))
-
-                                    marker.position = latLng
-                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                                }
-                            })
+                        loadPontos()
                     }
 
                     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
@@ -156,6 +125,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         return true
+    }
+
+    fun loadPontos(){
+        val result = ApiMap.getInstance().create(IMapEndPoint::class.java).getPontos()
+        Log.d("result", result.toString())
+        result.enqueue(object : Callback<MapRequest> {
+
+            override fun onFailure(call: Call<MapRequest>, t: Throwable) {
+
+            }
+
+            override fun onResponse(
+                call: Call<MapRequest>,
+                response: Response<MapRequest>) {
+                val result: MapRequest = response.body()!!
+                Log.d("result", result.toString())
+
+                for (item in result.resultMap.listRecordsMap) {
+                    val latitude = item.latitude.toDouble()
+                    val longitude = item.longitude.toDouble()
+                    val polo = item.polo
+
+                    val latLng = LatLng(latitude, longitude)
+                    val marker = mMap.addMarker(MarkerOptions().position(latLng).title(polo))
+                    marker.position = latLng
+                   // mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                }
+            }
+        })
     }
 }
 

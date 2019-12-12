@@ -30,3 +30,30 @@ object ApiDistracao {
 
     }
 }
+
+object ApiMap {
+    var retrofit: Retrofit? = null
+
+    fun getInstance() : Retrofit {
+
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)
+
+        val gson = GsonBuilder().setLenient().create()
+
+        if (retrofit == null) {
+
+            retrofit = Retrofit.Builder()
+                .baseUrl(Constants.MAPURL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(httpClient.build())
+                .build()
+        }
+
+        return retrofit!!
+
+    }
+}
